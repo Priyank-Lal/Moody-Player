@@ -67,8 +67,8 @@ const FacialExpression = ({ setSongs }) => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full py-4 sm:py-6">
-      <div className="aspect-video w-full max-w-xs sm:max-w-md md:w-[600px] border rounded-2xl overflow-hidden shadow-md relative">
+    <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-between w-full py-4 sm:py-6">
+      <div className="aspect-video w-full min-h-[200px] max-w-lg md:max-w-xl md:w-[700px] border rounded-2xl overflow-hidden shadow-md relative">
         <video
           ref={videoRef}
           autoPlay
