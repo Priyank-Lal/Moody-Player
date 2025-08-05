@@ -5,7 +5,6 @@ const songModel = require("../models/song.models");
 
 const router = express.Router();
 
-// 🔐 Audio file type filter
 const audioFilter = (req, file, cb) => {
   const allowedTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];
   if (allowedTypes.includes(file.mimetype)) {
@@ -15,25 +14,20 @@ const audioFilter = (req, file, cb) => {
   }
 };
 
-// 📦 Multer setup with memory storage, filter & 10MB size limit
 const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter: audioFilter,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+  limits: { fileSize: 10 * 1024 * 1024 }, 
 });
 
-// 🎵 POST route for uploading a song
 router.post("/songs", upload.single("audio"), async (req, res) => {
   try {
-    // 🛑 No file = no party
     if (!req.file) {
       return res.status(400).json({ error: "No audio file provided." });
     }
 
-    // ⬆️ Upload to ImageKit or other storage
     const fileData = await uploadFile(req.file);
 
-    // 💾 Store song metadata in DB
     const createdSong = await songModel.create({
       title: req.body.title,
       artist: req.body.artist,
@@ -51,7 +45,6 @@ router.post("/songs", upload.single("audio"), async (req, res) => {
   }
 });
 
-// 🎶 GET route for mood-based song fetching
 router.get("/songs", async (req, res) => {
   try {
     const { mood } = req.query;

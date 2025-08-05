@@ -3,7 +3,7 @@ const songRoutes = require("./routes/song.routes")
 const cors = require('cors')
 
 const allowedOrigins = [
-  "https://yourfrontenddomain.com",
+  "https://moody-player-topaz.vercel.app",
   "http://localhost:5173",
 ];
 
