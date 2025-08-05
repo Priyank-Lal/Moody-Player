@@ -104,14 +104,29 @@ const ContributionModal = ({ isOpen, onClose }) => {
                 <option value="surprised">Surprised</option>
               </select>
 
-              <input
-                disabled={loading}
-                required={true}
-                type="file"
-                accept="audio/*"
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 text-gray-300 rounded-lg text-sm sm:text-base"
-                onChange={(e) => setAudioFile(e.target.files[0])}
-              />
+              <div className="w-full">
+                <label
+                  htmlFor="audio-upload"
+                  className={`block w-full cursor-pointer border-2 border-dashed border-gray-600 rounded-lg px-4 py-3 text-center text-sm sm:text-base text-gray-400 bg-gray-800 hover:border-indigo-500 transition-all duration-200 ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {audioFile ? (
+                    <span className="text-gray-200">{audioFile.name}</span>
+                  ) : (
+                    "🎵 Click or drag an audio file here"
+                  )}
+                </label>
+                <input
+                  id="audio-upload"
+                  type="file"
+                  disabled={loading}
+                  required
+                  accept="audio/*"
+                  className="hidden"
+                  onChange={(e) => setAudioFile(e.target.files[0])}
+                />
+              </div>
               <button
                 type="submit"
                 disabled={loading}
