@@ -8,7 +8,6 @@ const FacialExpression = ({ setSongs }) => {
   const [mood, setMood] = useState("");
   const [error, setError] = useState("");
 
-
   const loadModels = async () => {
     const MODEL_URL = "/models";
     await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
@@ -61,7 +60,6 @@ const FacialExpression = ({ setSongs }) => {
     }
   };
 
-
   useEffect(() => {
     loadModels().then(() => {
       startVideo();
@@ -69,9 +67,8 @@ const FacialExpression = ({ setSongs }) => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row gap-10 items-center justify-center w-full  py-6">
-      {/* Video Section */}
-      <div className="aspect-video w-full md:w-[600px] border rounded-2xl overflow-hidden shadow-md relative">
+    <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center w-full py-4 sm:py-6">
+      <div className="aspect-video w-full max-w-xs sm:max-w-md md:w-[600px] border rounded-2xl overflow-hidden shadow-md relative">
         <video
           ref={videoRef}
           autoPlay
@@ -80,21 +77,20 @@ const FacialExpression = ({ setSongs }) => {
         />
         {!isVideoReady && (
           <div className="absolute inset-0 bg-black/60 border border-dashed border-indigo-500 rounded-2xl flex items-center justify-center h-full">
-            <span className="text-gray-300 text-lg">
+            <span className="text-gray-300 text-base sm:text-lg">
               Video will be played here
             </span>
           </div>
         )}
       </div>
 
-      {/* Mood Detection Section */}
-      <div className="text-center max-w-md w-full space-y-4">
+      <div className="text-center max-w-xs sm:max-w-md w-full space-y-3 sm:space-y-4">
         {mood ? (
           <>
-            <h2 className="text-3xl font-semibold text-white">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
               Face Detection Completed
             </h2>
-            <p className="text-white text-xl font-medium">
+            <p className="text-white text-lg sm:text-xl font-medium">
               Mood Detected:{" "}
               <span className="font-semibold capitalize text-green-400">
                 {mood}
@@ -103,17 +99,19 @@ const FacialExpression = ({ setSongs }) => {
           </>
         ) : error ? (
           <>
-            <h2 className="text-3xl font-semibold text-white">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
               How are you feeling?
             </h2>
-            <p className="text-red-400 text-base font-medium">{error}</p>
+            <p className="text-red-400 text-sm sm:text-base font-medium">
+              {error}
+            </p>
           </>
         ) : (
           <>
-            <h2 className="text-3xl font-semibold text-white">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
               How are you feeling?
             </h2>
-            <p className="text-gray-400 text-base px-2">
+            <p className="text-gray-400 text-sm sm:text-base px-2">
               Click the button and let us read your expression 😄. We'll suggest
               music to match your vibe 🎶✨
             </p>
@@ -121,7 +119,7 @@ const FacialExpression = ({ setSongs }) => {
         )}
 
         <button
-          className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xl px-8 py-4 rounded-full shadow-lg hover:scale-102 transition-transform cursor-pointer"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-lg sm:text-xl px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg hover:scale-102 transition-transform cursor-pointer"
           onClick={detectMood}
         >
           Detect Mood

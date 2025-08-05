@@ -18,12 +18,12 @@ const MoodSongs = ({ songs }) => {
   };
 
   return (
-    <div className="w-full flex flex-col justify-end mt-6">
-      <h1 className="text-3xl font-bold text-left text-gray-200 mb-4 tracking-tight">
+    <div className="w-full flex flex-col justify-end mt-4 sm:mt-6 px-1 sm:px-0">
+      <h1 className="text-2xl sm:text-3xl font-bold text-left text-gray-200 mb-2 sm:mb-4 tracking-tight">
         Recommended Tracks
       </h1>
       {songs && songs.length > 0 ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 sm:gap-4">
           {songs.map((song, index) => (
             <CustomAudioPlayer
               key={song.title}
@@ -37,7 +37,7 @@ const MoodSongs = ({ songs }) => {
           ))}
         </div>
       ) : (
-        <span className="text-xl w-full text-center text-gray-300 mt-10">
+        <span className="text-lg sm:text-xl w-full text-center text-gray-300 mt-6 sm:mt-10">
           Nothing here yet..
         </span>
       )}

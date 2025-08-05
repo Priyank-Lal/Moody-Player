@@ -2,18 +2,39 @@
 
 body {
     background-color: rgb(43, 40, 40);
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 @layer utilities {
     @layer utilities {
-            .fancy-border {
-                border: 4px solid;
-                border-image: repeating-linear-gradient(to right,
-                        #6366f1 0 12px,
-                        #8b5cf6 12px 24px,
-                        transparent 24px 36px) 1;
-            }
+        .fancy-border {
+            border: 4px solid;
+            border-image: repeating-linear-gradient(to right,
+                    #6366f1 0 12px,
+                    #8b5cf6 12px 24px,
+                    transparent 24px 36px) 1;
         }
+    }
 }
 
+@media (max-width: 640px) {
+    body {
+        font-size: 15px;
+        padding: 0 4px;
+    }
+
+    .fancy-border {
+        border-width: 2px;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    body {
+        font-size: 16px;
+        padding: 0 12px;
+    }
+
+    .fancy-border {
+        border-width: 3px;
+    }
+}

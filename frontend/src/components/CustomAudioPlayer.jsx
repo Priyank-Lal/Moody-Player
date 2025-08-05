@@ -75,29 +75,30 @@ const CustomAudioPlayer = ({
   };
 
   return (
-    <div className="w-full bg-gray-800 p-4 rounded-xl shadow-lg flex flex-col gap-4">
-      {/* Song Info */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="w-full bg-gray-800 p-3 sm:p-4 rounded-xl shadow-lg flex flex-col gap-3 sm:gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <div className="flex flex-col gap-1">
-          <p className="text-white text-lg font-semibold">{title}</p>
-          <p className="text-gray-400 text-sm">{artist}</p>
+          <p className="text-white text-base sm:text-lg font-semibold">
+            {title}
+          </p>
+          <p className="text-gray-400 text-xs sm:text-sm">{artist}</p>
         </div>
 
         <button
           onClick={togglePlayPause}
-          className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-5 py-2 rounded-full shadow-md hover:scale-105 transition-all flex items-center gap-2 cursor-pointer"
+          className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 sm:px-5 py-2 rounded-full shadow-md hover:scale-105 transition-all flex items-center gap-2 cursor-pointer text-sm sm:text-base"
         >
           {isPlaying ? (
-            <i className="fa-solid fa-pause text-xl text-gray-50"></i>
+            <i className="fa-solid fa-pause text-lg sm:text-xl text-gray-50"></i>
           ) : (
-            <i className="fa-solid fa-play text-xl text-gray-50"></i>
+            <i className="fa-solid fa-play text-lg sm:text-xl text-gray-50"></i>
           )}
           {isPlaying ? "Pause" : "Play"}
         </button>
       </div>
 
-      <div className="w-full flex items-center gap-4">
-        <span className="text-gray-300 text-sm w-[40px] text-right">
+      <div className="w-full flex items-center gap-2 sm:gap-4">
+        <span className="text-gray-300 text-xs sm:text-sm w-[32px] sm:w-[40px] text-right">
           {formatTime(currentTime)}
         </span>
         <div
@@ -110,12 +111,11 @@ const CustomAudioPlayer = ({
             style={{ width: `${(currentTime / duration) * 100 || 0}%` }}
           />
         </div>
-        <span className="text-gray-300 text-sm w-[40px]">
+        <span className="text-gray-300 text-xs sm:text-sm w-[32px] sm:w-[40px]">
           {formatTime(duration)}
         </span>
       </div>
 
-      {/* Hidden Audio Tag */}
       <audio
         ref={audioRef}
         src={src}
