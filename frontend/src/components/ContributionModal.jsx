@@ -19,8 +19,7 @@ const ContributionModal = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // ✅ Correct
-    console.log(mood.toLowerCase());
+    e.preventDefault(); 
 
     if (!audioFile) {
       alert("Please select an audio file!");
@@ -40,7 +39,6 @@ const ContributionModal = ({ isOpen, onClose }) => {
         "http://localhost:3000/songs",
         formData
       );
-      console.log("Upload success:", response.data);
       alert("Song uploaded successfully!");
     } catch (error) {
       console.error("Upload error:", error);
