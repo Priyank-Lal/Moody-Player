@@ -51,7 +51,7 @@ const FacialExpression = ({ setSongs }) => {
 
     try {
       const { data } = await axios.get(
-        `http://localhost:3000/songs?mood=${_expression}`
+        `${import.meta.env.VITE_BACKEND_URL}/songs?mood=${_expression}`
       );
       setMood(_expression);
       setSongs(data.songs);

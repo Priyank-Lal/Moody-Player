@@ -35,10 +35,10 @@ const ContributionModal = ({ isOpen, onClose }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/songs",
-        formData
-      );
+       await axios.post(
+         `${import.meta.env.VITE_BACKEND_URL}/songs`,
+         formData
+       );
       alert("Song uploaded successfully!");
     } catch (error) {
       console.error("Upload error:", error);
