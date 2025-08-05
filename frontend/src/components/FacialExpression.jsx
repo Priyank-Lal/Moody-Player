@@ -7,6 +7,7 @@ const FacialExpression = ({ setSongs }) => {
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [mood, setMood] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const loadModels = async () => {
     const MODEL_URL = "/models";
@@ -30,33 +31,40 @@ const FacialExpression = ({ setSongs }) => {
   const detectMood = async () => {
     setError("");
     setMood("");
-
-    const detections = await faceapi
-      .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
-      .withFaceExpressions();
-
-    if (!detections || detections.length === 0) {
-      setError("Error detecting face. Please try again.");
-      return;
-    }
-
-    let mostProbableExpression = 0;
-    let _expression = "";
-    for (let expression of Object.keys(detections[0].expressions)) {
-      if (detections[0].expressions[expression] > mostProbableExpression) {
-        mostProbableExpression = detections[0].expressions[expression];
-        _expression = expression;
-      }
-    }
-
+    setLoading(true); // Start loading
     try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/songs?mood=${_expression}`
-      );
-      setMood(_expression);
-      setSongs(data.songs);
+      const detections = await faceapi
+        .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+        .withFaceExpressions();
+
+      if (!detections || detections.length === 0) {
+        setError("Error detecting face. Please try again.");
+        setLoading(false); // Stop loading on error
+        return;
+      }
+
+      let mostProbableExpression = 0;
+      let _expression = "";
+      for (let expression of Object.keys(detections[0].expressions)) {
+        if (detections[0].expressions[expression] > mostProbableExpression) {
+          mostProbableExpression = detections[0].expressions[expression];
+          _expression = expression;
+        }
+      }
+
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/songs?mood=${_expression}`
+        );
+        setMood(_expression);
+        setSongs(data.songs);
+      } catch (err) {
+        setError("Mood detected, but failed to fetch songs.");
+      }
     } catch (err) {
-      setError("Mood detected, but failed to fetch songs.");
+      setError("Error detecting face. Please try again.");
+    } finally {
+      setLoading(false); // Always stop loading
     }
   };
 
@@ -68,7 +76,7 @@ const FacialExpression = ({ setSongs }) => {
 
   return (
     <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-between w-full py-4 sm:py-6">
-      <div className="aspect-video w-full min-h-[200px] max-w-lg md:max-w-xl md:w-[700px] border rounded-2xl overflow-hidden shadow-md relative">
+      <div className="aspect-video w-full min-h-[350px] max-w-lg md:max-w-xl md:w-[700px] border rounded-2xl overflow-hidden shadow-md relative">
         <video
           ref={videoRef}
           autoPlay
@@ -87,7 +95,7 @@ const FacialExpression = ({ setSongs }) => {
       <div className="text-center max-w-xs sm:max-w-md w-full space-y-3 sm:space-y-4">
         {mood ? (
           <>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+            <h2 className="text-xl md:text-3xl font-semibold text-white">
               Face Detection Completed
             </h2>
             <p className="text-white text-lg sm:text-xl font-medium">
@@ -106,6 +114,16 @@ const FacialExpression = ({ setSongs }) => {
               {error}
             </p>
           </>
+        ) : loading ? (
+          <>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+              Detecting Mood...
+            </h2>
+            <p className="text-gray-400 text-sm sm:text-base px-2">
+              We're analyzing your expression to suggest the perfect music for
+              you. This may take a moment...
+            </p>
+          </>
         ) : (
           <>
             <h2 className="text-2xl sm:text-3xl font-semibold text-white">
@@ -119,10 +137,17 @@ const FacialExpression = ({ setSongs }) => {
         )}
 
         <button
-          className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-lg sm:text-xl px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg hover:scale-102 transition-transform cursor-pointer"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-lg sm:text-xl px-6 sm:px-8 py-3 sm:py-4 rounded-full shadow-lg hover:scale-102 transition-transform cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={detectMood}
+          disabled={loading}
         >
-          Detect Mood
+          {loading ? (
+            <span className="flex items-center justify-center">
+              <span className="loader mr-2"></span> Loading...
+            </span>
+          ) : (
+            "Detect Mood"
+          )}
         </button>
       </div>
     </div>
