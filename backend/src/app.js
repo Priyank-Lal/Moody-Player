@@ -4,9 +4,12 @@ const cors = require("cors");
 
 const allowedOrigins = [
   "https://moody-player-topaz.vercel.app",
-  "http://localhost:5173",
+  "http://localhost:3000",
 ];
 
+
+const app = express();
+app.use(express.json());
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -20,8 +23,6 @@ app.use(
   })
 );
 
-const app = express();
-app.use(express.json());
 
 app.use("/", songRoutes);
 app.use((err, req, res, next) => {
@@ -30,3 +31,5 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+
+
